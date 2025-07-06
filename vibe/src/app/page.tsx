@@ -1,15 +1,18 @@
 'use client';
-import { useTRPC } from "@/trpc/client";
-import { getQueryClient, trpc } from "@/trpc/server";
-import { QueryClient } from "@tanstack/react-query";
-import { tr } from "date-fns/locale";
+import { useMutation } from "@tanstack/react-query";
 
-const Page = async () => {
-  const queryClient = getQueryClient();
-  void queryClient.prefetchQuery(trpc.hello.queryOptions({ text: "world" }));
-  
+import { Button } from "@/components/ui/button";
+import { useTRPC } from "@/trpc/client";
+
+
+const Page =  () => {
+  const trpc = useTRPC();
+  const invoke= useMutation(trpc.invoke.mutationOptions({}));
+
   return (<div>
-    Hello world
+    <Button onClick={() => invoke.mutate({text: "John"})}>
+      Invoke background job
+    </Button>
   </div>  );
 }
  
