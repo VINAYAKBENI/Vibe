@@ -21,7 +21,7 @@ export const codeAgentFunction = inngest.createFunction(
   async ({ event, step }) => {
 
     const sanboxId = await step.run("get sandbox id", async () => {
-      const sandbox = await Sandbox.create("vibe-nextjs-test-10");
+      const sandbox = await Sandbox.create("vibe-nextjs-test-10",{timeoutMs:600_000});
       return sandbox.sandboxId
     });
 
@@ -31,7 +31,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "An expert coding agent",
       // model: openai({ model:"gpt-4o" }),
       model: gemini({
-        model: "gemini-2.5-flash",
+        model: "gemini-2.5-pro",
       }),
       tools: [
         createTool({
