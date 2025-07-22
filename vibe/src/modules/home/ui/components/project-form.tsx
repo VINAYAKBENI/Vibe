@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useClerk } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TextareaAutoSize from "react-textarea-autosize";
 import { ArrowUpIcon, Loader2Icon } from "lucide-react";
@@ -15,7 +16,6 @@ import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { PROJECT_TEMPLATES } from "../../constants";
-import { te } from "date-fns/locale";
 
 
 
@@ -29,6 +29,7 @@ export const ProjectForm = () => {
 
     const router = useRouter();
     const trpc = useTRPC();
+    const clerk = useClerk();
     const queryClient = useQueryClient();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -45,6 +46,9 @@ export const ProjectForm = () => {
             router.push(`/projects/${data.id}`);
         },
         onError: (error) => {
+            if (error.data?.code === "UNAUTHORIZED") {
+                clerk.openSignIn();
+            }
             toast.error(error.message);
 
         }
