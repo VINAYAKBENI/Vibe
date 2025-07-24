@@ -67,7 +67,7 @@ export const codeAgentFunction = inngest.createFunction(
       description: "An expert coding agent",
       // model: openai({ model:"gpt-4o" }),
       model: gemini({
-        model: "gemini-2.5-pro",
+        model: "gemini-2.5-flash",
       }),
       tools: [
         createTool({
