@@ -1,0 +1,1 @@
+export const SANDBOX_TIMEOUT = 60_000 * 10 * 1.5; // 15 Mins in milli sec (1 hour max for free tier)
